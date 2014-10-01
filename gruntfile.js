@@ -44,18 +44,25 @@ module.exports = function(grunt) {
 
         concat: {
             dist: {
+                options: {
+                    sourceMap: true,
+                },
                 src: [
-                    'js/vendor/*.js',
                     'js/main.js',
                     'js/ragerange.js'
                 ],
-                dest: 'js/build/production.js'
+                dest: 'js/build/production.min.js',
             }
         },
 
         uglify: {
+            options: {
+                sourceMap: true,
+                sourceMapIncludeSources: true,
+                sourceMapIn: 'js/build/production.js',
+            },
             build: {
-                src: 'js/build/production.js',
+                src: 'js/build/production.min.js',
                 dest: 'js/build/production.min.js'
             }
         },
@@ -119,6 +126,8 @@ module.exports = function(grunt) {
 
     // Default Task is basically a rebuild
     grunt.registerTask('default', ['concat', 'uglify', 'compass', 'autoprefixer', 'cssmin', 'imagemin']);
+
+    grunt.registerTask('debug', ['concat', 'compass', 'autoprefixer']);
 
     grunt.registerTask('dev', ['connect', 'watch']);
 
