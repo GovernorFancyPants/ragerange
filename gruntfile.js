@@ -59,7 +59,7 @@ module.exports = function(grunt) {
             options: {
                 sourceMap: true,
                 sourceMapIncludeSources: true,
-                sourceMapIn: 'js/build/production.js',
+                //sourceMapIn: 'js/build/production.js',
             },
             build: {
                 src: 'js/build/production.min.js',

@@ -14,7 +14,7 @@ function RageRange () {
             input: true,
             me: null,
             step: el.children[0].step,
-            anchors: {},//{"Division": 0, "Balls": 25, "Konto":50, "Origin":75, "balls":100},
+            anchors: {"Division": 0, "Balls": 25, "Konto":50, "Origin":75, "balls":100},
             bounceBack: false,
             hook: function(x){
                 console.log(x);
@@ -99,7 +99,7 @@ function RageRange () {
 
         function mouseUp(event) {
             window.removeEventListener('mousemove', divMove, true);
-            currentPosition = event.clientX - uiHandle.offsetLeft;
+            currentPosition = event.clientX - uiHandle.offsetLeft - 10;
             previousPosition = null;
 
             if(range_setup.bounceBack) {
@@ -128,7 +128,6 @@ function RageRange () {
                         currentMin = Math.abs(position-range_setup.anchors[x]);
                     }
                 }
-                console.log(getPosition(currentAnchor));
                 uiHandle.style.left = getPosition(currentAnchor);
                 range_setup.hook(currentAnchor);
             }
@@ -136,7 +135,7 @@ function RageRange () {
         }
 
         function mouseDown(event) {
-            currentPosition = event.clientX - uiHandle.offsetLeft;
+            currentPosition = event.clientX - uiHandle.offsetLeft - 10;
             window.addEventListener('mousemove', divMove, true);
             return false;
         }

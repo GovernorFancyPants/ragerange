@@ -78,6 +78,11 @@ input[type=checkbox].custom-checkbox, input[type=radio].custom-radio, input[type
 $color-bg-active: #35A859;
 $color-bg-disabled: #eaeaea;
 
+
+body.select-none {
+  user-select: none;
+}
+
 // SLIDERS
 .slider-container {
   width: 100%;
