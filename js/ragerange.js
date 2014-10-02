@@ -13,7 +13,7 @@ function RageRange () {
             input: true,
             me: null,
             step: el.children[0].step,
-            anchors: {"Division": 0, "Balls": 256, "Konto":512, "Origin":768, "balls":1024},
+            anchors: {},//{"Division": 0, "Balls": 256, "Konto":512, "Origin":768, "balls":1024},
             bounceBack: false,
             hook: function(x){
                 //console.log(x);
@@ -208,33 +208,31 @@ function RageRange () {
         }
 
         function keyUp (e) {
-            setTimeout (function () {
-                var regulatorPosition = (el.getElementsByClassName('input')[0].value / rangeMax) * 100;
-                uiHandle.style.left = Math.max(0, Math.min(regulatorPosition, 100)) + "%";
-                uiRange.style.width = Math.max(0, Math.min(regulatorPosition, 100)) + "%";
-                uiCustRange.value = el.getElementsByClassName('input')[0].value;
+            var regulatorPosition = (el.getElementsByClassName('input')[0].value / rangeMax) * 100;
+            uiHandle.style.left = Math.max(0, Math.min(regulatorPosition, 100)) + "%";
+            uiRange.style.width = Math.max(0, Math.min(regulatorPosition, 100)) + "%";
+            uiCustRange.value = el.getElementsByClassName('input')[0].value;
 
-                var procent = Math.max(0, Math.min(regulatorPosition, 100));
-                var position = rangeMin+(rangeMax-rangeMin)*procent/100;
+            var procent = Math.max(0, Math.min(regulatorPosition, 100));
+            var position = rangeMin+(rangeMax-rangeMin)*procent/100;
 
-                if(Object.keys(range_setup.anchors).length) {
-                    var currentAnchor = range_setup.anchors[Object.keys(range_setup.anchors)[0]];
-                    var currentMin = Math.abs(position-range_setup.anchors[Object.keys(range_setup.anchors)[0]]);
-                    for(var x in range_setup.anchors) {
-                        if(Math.abs(position-range_setup.anchors[x]) < currentMin) {
-                            currentAnchor = range_setup.anchors[x];
-                            currentMin = Math.abs(position-range_setup.anchors[x]);
-                        }
-                    }
-                    uiHandle.style.left = getPosition(currentAnchor)/widthMax*100 + "%";
-                    uiRange.style.width = getPosition(currentAnchor)/widthMax*100 + "%";
-                    range_setup.hook(currentAnchor);
-                    uiCustRange.value = currentAnchor;
-                    if (range_setup.input) {
-                        el.getElementsByClassName('input')[0].value = currentAnchor;
+            if(Object.keys(range_setup.anchors).length) {
+                var currentAnchor = range_setup.anchors[Object.keys(range_setup.anchors)[0]];
+                var currentMin = Math.abs(position-range_setup.anchors[Object.keys(range_setup.anchors)[0]]);
+                for(var x in range_setup.anchors) {
+                    if(Math.abs(position-range_setup.anchors[x]) < currentMin) {
+                        currentAnchor = range_setup.anchors[x];
+                        currentMin = Math.abs(position-range_setup.anchors[x]);
                     }
                 }
-            }, 500);
+                uiHandle.style.left = getPosition(currentAnchor)/widthMax*100 + "%";
+                uiRange.style.width = getPosition(currentAnchor)/widthMax*100 + "%";
+                range_setup.hook(currentAnchor);
+                uiCustRange.value = currentAnchor;
+                if (range_setup.input) {
+                    el.getElementsByClassName('input')[0].value = currentAnchor;
+                }
+            }
         }
 
         function getPosition(position) {
@@ -247,7 +245,7 @@ function RageRange () {
 
         uiHandle.addEventListener("mousedown", mouseDown, false);
         if (range_setup.input) {
-            el.getElementsByClassName('input')[0].addEventListener("keyup", keyUp, false);
+            el.getElementsByClassName('input')[0].onblur = keyUp;
         }
 
         uiSlider.addEventListener("mouseup", sliderClick, false);
